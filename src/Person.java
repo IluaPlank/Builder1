@@ -28,7 +28,9 @@ public class Person {
     public OptionalInt getAge() {
         if (hasAge()) {
             return OptionalInt.of(age);
-        } else return OptionalInt.empty();
+        } else {
+            return OptionalInt.empty();
+        }
     }
 
     public String getAddress() {
@@ -55,7 +57,7 @@ public class Person {
         this.age = age;
     }
 
-    public PersonBuilder newChildBuilder() { /*...*/
+    public PersonBuilder newChildBuilder() {
         return new PersonBuilder()
                 .setSurname(surname)
                 .setAddress(getAddress());
@@ -63,9 +65,9 @@ public class Person {
 
     @Override
     public String toString() {
-        return  "Имя ='" + name + '\'' +"\n"+
-                "Фамилия ='" + surname + '\'' +"\n"+
-                "Возраст =" + (getAge().isPresent()? getAge().getAsInt() : "Возраст не указан ") +"\n"+
+        return "Имя ='" + name + '\'' + "\n" +
+                "Фамилия ='" + surname + '\'' + "\n" +
+                "Возраст =" + (getAge().isPresent() ? getAge().getAsInt() : "Возраст не указан ") + "\n" +
                 "Адрес ='" + address + '\'';
     }
 
