@@ -1,5 +1,5 @@
+import java.util.Objects;
 import java.util.OptionalInt;
-import java.util.stream.Stream;
 
 public class Person {
 
@@ -10,11 +10,11 @@ public class Person {
 
 
     public boolean hasAge() {
-        return 0 != this.age;
+        return 0 != age;
     }
 
     public boolean hasAddress() {
-        return null != this.address;
+        return null != address;
     }
 
     public String getName() {
@@ -26,7 +26,13 @@ public class Person {
     }
 
     public OptionalInt getAge() {
-        return OptionalInt.of(this.age);
+        if (hasAge()) {
+            return OptionalInt.of(age);
+        } else return OptionalInt.empty();
+    }
+
+    public String getAddress() {
+        return hasAddress() ? address : "Адрес не указан";
     }
 
     public String setAddress(String address) {
@@ -35,7 +41,7 @@ public class Person {
 
     public void happyBirthday() {
         if (hasAge()) {
-            this.age += 1;
+            age += 1;
         }
     }
 
@@ -45,26 +51,27 @@ public class Person {
     }
 
     public Person(String name, String surname, int age) {
-        this.name = name;
-        this.surname = surname;
+        this(name, surname);
         this.age = age;
     }
 
     public PersonBuilder newChildBuilder() { /*...*/
-        return null;
+        return new PersonBuilder()
+                .setSurname(surname)
+                .setAddress(getAddress());
     }
 
     @Override
     public String toString() {
-        return "имя='" + name + '\'' +
-                "фамилия='" + surname + '\'' +
-                "возраст=" + age +
-                "адрес='" + address + '\'';
+        return  "Имя ='" + name + '\'' +"\n"+
+                "Фамилия ='" + surname + '\'' +"\n"+
+                "Возраст =" + (getAge().isPresent()? getAge().getAsInt() : "Возраст не указан ") +"\n"+
+                "Адрес ='" + address + '\'';
     }
 
     @Override
-    public int hashCode() { /*...*/
-        return 0;
+    public int hashCode() {
+        return Objects.hash(name, surname, age, address);
     }
 
 }
